@@ -1,0 +1,17 @@
+.app {
+  padding-left: 15px;
+  padding-right: 15px;
+
+  background-color: #f9f9f9;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  min-height: 100vh;
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: 195px 1fr;
+    min-height: 100vh;
+  }
+}
