@@ -1,0 +1,30 @@
+.aside {
+  padding: 10px;
+
+  background-color: #2b2f3e;
+}
+
+.aside_title {
+  margin-bottom: 8px;
+
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+
+  color: #ffffff;
+
+  @media screen and (min-width: 768px) {
+    font-size: 32px;
+  }
+}
+
+.aside_text {
+  font-size: 14px;
+  text-align: center;
+  color: #5b5d63;
+
+  @media screen and (min-width: 768px) {
+    font-size: 16px;
+  }
+}
