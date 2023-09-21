@@ -3,8 +3,8 @@ export const generateRandomNumber = () => {
 
   let randomString = randomNumber.toString();
 
-  if (randomString.length < 8) {
-    randomString = "0" + randomString;
+  if (randomString.length < 7) {
+    randomString = '0' + randomString;
   }
 
   return randomString;
