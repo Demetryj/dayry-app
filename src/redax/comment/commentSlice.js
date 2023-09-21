@@ -1,9 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { generateRandomNumber } from '../../utils/generateRandomNumber';
 
 export const commentSlice = createSlice({
   name: 'comment',
   initialState: {
-    items: [],
+    items: [
+      {
+        id: generateRandomNumber(),
+        name: 'Test',
+        comments: [{ body: 'Test', color: '#000000' }],
+      },
+    ],
     activeItem: null,
   },
   reducers: {
@@ -12,7 +19,6 @@ export const commentSlice = createSlice({
     },
     deleteItem(state, action) {
       const index = state.items.findIndex(item => item.id === action.payload);
-
       state.items.splice(index, 1);
     },
     changeActiveItem(state, action) {
