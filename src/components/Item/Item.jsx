@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteItem } from '../redax/comment/commentSlice';
-import { selectActiveItem, selectItems } from '../redax/comment/selectors';
-import { changeActiveItem } from '../redax/comment/commentSlice';
-
+import PropTypes from 'prop-types';
+import { deleteItem } from '../../redax/comment/commentSlice';
+import { selectActiveItem, selectItems } from '../../redax/comment/selectors';
+import { changeActiveItem } from '../../redax/comment/commentSlice';
 import './Item.css';
 
 export const Item = ({ data: { id, name, comments } }) => {
@@ -46,4 +46,15 @@ export const Item = ({ data: { id, name, comments } }) => {
       </button>
     </div>
   );
+};
+
+Item.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      body: PropTypes.string,
+      color: PropTypes.string,
+    })
+  ).isRequired,
 };

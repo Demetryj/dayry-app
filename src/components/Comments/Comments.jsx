@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { selectActiveItem } from '../redax/comment/selectors';
-import { addComment } from '../redax/comment/commentSlice';
+import { selectActiveItem } from '../../redax/comment/selectors';
+import { addComment } from '../../redax/comment/commentSlice';
 import { Comment } from '../Comment';
 import './Comments.css';
 

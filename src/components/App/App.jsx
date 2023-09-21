@@ -1,6 +1,6 @@
-import { Aside } from "../Aside";
-import { Section } from "../Section";
-import "./App.css";
+import { Aside } from '../Aside';
+import { Section } from '../Section';
+import './App.css';
 
 export const App = () => {
   return (
