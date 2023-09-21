@@ -1,15 +1,27 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Item } from "../Item";
-import { selectItems } from "../redax/comment/selectors";
-import { addItem, changeActiveItem } from "../redax/comment/commentSlice";
-import { generateRandomNumber } from "../utils/generateRandomNumber";
-import "./Items.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { Item } from '../Item';
+import { selectItems, selectActiveItem } from '../redax/comment/selectors';
+import { addItem, changeActiveItem } from '../redax/comment/commentSlice';
+import { generateRandomNumber } from '../utils/generateRandomNumber';
+import './Items.css';
+import { useEffect } from 'react';
 
 export const Items = () => {
   const dispatch = useDispatch();
   const allItems = useSelector(selectItems);
+  const activeItem = useSelector(selectActiveItem);
 
-  const handleSubmitForm = (event) => {
+  useEffect(() => {
+    if (allItems.length === 1 && !activeItem) {
+      dispatch(changeActiveItem(allItems[0]));
+    }
+
+    if (allItems.length === 0) {
+      dispatch(changeActiveItem(null));
+    }
+  }, [activeItem, allItems, dispatch]);
+
+  const handleSubmitForm = event => {
     event.preventDefault();
     const newAtem = {
       id: generateRandomNumber(),
@@ -25,7 +37,7 @@ export const Items = () => {
     event.target.reset();
   };
 
-  const handleItemClick = (item) => dispatch(changeActiveItem(item));
+  const handleItemClick = item => dispatch(changeActiveItem(item));
 
   return (
     <div>
@@ -48,7 +60,7 @@ export const Items = () => {
 
         {allItems.length > 0 && (
           <ul className="items_list">
-            {allItems.map((item) => (
+            {allItems.map(item => (
               <li
                 className="item"
                 key={item.id}
