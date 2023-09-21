@@ -31,7 +31,7 @@ export const Comments = () => {
 
         {activeItem?.comments.length > 0 && (
           <ul className="comments_list">
-            {activeItem.comments.map((comment, index) => (
+            {activeItem?.comments.map((comment, index) => (
               <li key={index}>
                 <Comment comment={comment} />
               </li>
