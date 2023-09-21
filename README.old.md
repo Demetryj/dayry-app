@@ -1,1 +1,0 @@
-# dayry-app
