@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteItem } from '../redax/comment/commentSlice';
 import { selectActiveItem, selectItems } from '../redax/comment/selectors';
 import { changeActiveItem } from '../redax/comment/commentSlice';
+
 import './Item.css';
 
 export const Item = ({ data: { id, name, comments } }) => {
@@ -9,18 +10,29 @@ export const Item = ({ data: { id, name, comments } }) => {
   const activeItem = useSelector(selectActiveItem);
   const allItems = useSelector(selectItems);
 
-  const handleButtonDeleteClick = () => {
+  const handleButtonDeleteClick = event => {
+    event.stopPropagation();
     dispatch(deleteItem(id));
 
     if (activeItem.id === id) {
-      dispatch(changeActiveItem(allItems[1]));
+      allItems.forEach((item, index, array) => {
+        if (id === item.id) {
+          if (index === array.length - 1) {
+            dispatch(changeActiveItem(allItems[allItems.length - 2]));
+          } else {
+            dispatch(changeActiveItem(allItems[allItems.length - 1]));
+          }
+        } else {
+          return;
+        }
+      });
     }
   };
 
   return (
     <div
       className={
-        activeItem.id === id ? 'item_wrapper active-item' : 'item_wrapper'
+        activeItem?.id === id ? 'item_wrapper active-item' : 'item_wrapper'
       }
     >
       <p className="item_text">{name}</p>
