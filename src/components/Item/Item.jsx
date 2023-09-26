@@ -1,11 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { Button, Checkbox } from 'antd';
 import PropTypes from 'prop-types';
 import { deleteItem } from '../../redax/comment/commentSlice';
 import { selectActiveItem, selectItems } from '../../redax/comment/selectors';
 import { changeActiveItem } from '../../redax/comment/commentSlice';
 import './Item.css';
+import { useState } from 'react';
 
-export const Item = ({ data: { id, name, comments } }) => {
+export const Item = ({ data: { id, name, comments }, handleClick }) => {
+  const [isChacked, setIsChacked] = useState(false);
+
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveItem);
   const allItems = useSelector(selectItems);
@@ -29,32 +33,44 @@ export const Item = ({ data: { id, name, comments } }) => {
     }
   };
 
+  const handleChange = event => {
+    event.stopPropagation();
+
+    setIsChacked(!isChacked);
+
+    handleClick(id, event.target.checked);
+  };
+
   return (
     <div
       className={
         activeItem?.id === id ? 'item_wrapper active-item' : 'item_wrapper'
       }
     >
+      <Checkbox onChange={handleChange} checked={isChacked} />
       <p className="item_text">{name}</p>
       <span className="item_count">{comments.length}</span>
-      <button
+      {/* <button
         className="item_button"
         type="button"
         onClick={handleButtonDeleteClick}
       >
         Delete
-      </button>
+      </button> */}
+      <Button type="primary" danger ghost onClick={handleButtonDeleteClick}>
+        Delete
+      </Button>
     </div>
   );
 };
 
 Item.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  name: PropTypes.string,
   comments: PropTypes.arrayOf(
     PropTypes.shape({
       body: PropTypes.string,
       color: PropTypes.string,
     })
-  ).isRequired,
+  ),
 };

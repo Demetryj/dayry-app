@@ -12,7 +12,7 @@ export const Comment = ({ comment: { body, color } }) => {
 
 Comment.propTypes = {
   comment: PropTypes.shape({
-    body: PropTypes.string.isRequired,
-    isModalOpen: PropTypes.string.isRequired,
-  }).isRequired,
+    body: PropTypes.string,
+    color: PropTypes.string,
+  }),
 };

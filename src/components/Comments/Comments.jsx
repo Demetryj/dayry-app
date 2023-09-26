@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { Button } from 'antd';
 import { selectActiveItem } from '../../redax/comment/selectors';
 import { addComment } from '../../redax/comment/commentSlice';
 import { Comment } from '../Comment';
@@ -49,9 +50,12 @@ export const Comments = () => {
             required
             autoComplete="off"
           />
-          <button className="comments-form_button" type="submit">
+          {/* <button className="comments-form_button" type="submit">
             Add New
-          </button>
+          </button> */}
+          <Button type="primary" htmlType="submit">
+            Add New
+          </Button>
         </form>
       </div>
     </div>

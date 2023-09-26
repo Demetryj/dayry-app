@@ -9,6 +9,7 @@ export const commentSlice = createSlice({
         id: generateRandomNumber(),
         name: 'Test',
         comments: [{ body: 'Test', color: '#000000' }],
+        checked: false,
       },
     ],
     activeItem: null,
@@ -30,9 +31,22 @@ export const commentSlice = createSlice({
 
       state.activeItem.comments.push(action.payload);
     },
+
+    deleteItems(state, action) {
+      for (let i = state.items.length - 1; i >= 0; i--) {
+        if (action.payload.includes(state.items[i].id)) {
+          state.items.splice(i, 1);
+        }
+      }
+    },
   },
 });
 
-export const { addItem, deleteItem, changeActiveItem, addComment } =
-  commentSlice.actions;
+export const {
+  addItem,
+  deleteItem,
+  changeActiveItem,
+  addComment,
+  deleteItems,
+} = commentSlice.actions;
 export const commentReducer = commentSlice.reducer;

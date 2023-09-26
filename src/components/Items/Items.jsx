@@ -1,12 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Button, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Item } from '../Item';
 import { selectItems, selectActiveItem } from '../../redax/comment/selectors';
-import { addItem, changeActiveItem } from '../../redax/comment/commentSlice';
+import {
+  addItem,
+  changeActiveItem,
+  deleteItems,
+} from '../../redax/comment/commentSlice';
 import { generateRandomNumber } from '../../utils/generateRandomNumber';
 import './Items.css';
 
 export const Items = () => {
+  const [inputValue, setInputValue] = useState('');
+  const [itemsToDelete, setItemsToDelete] = useState([]);
   const dispatch = useDispatch();
   const allItems = useSelector(selectItems);
   const activeItem = useSelector(selectActiveItem);
@@ -34,10 +41,36 @@ export const Items = () => {
       dispatch(changeActiveItem(newAtem));
     }
 
-    event.target.reset();
+    setInputValue('');
+  };
+
+  const handleClickCheck = (id, isChacked) => {
+    if (isChacked) {
+      setItemsToDelete(prev => [...prev, id]);
+    } else {
+      setItemsToDelete(prev => prev.filter(elem => elem !== id));
+    }
   };
 
   const handleItemClick = item => dispatch(changeActiveItem(item));
+
+  const handleButtonDeleteClick = () => {
+    dispatch(deleteItems(itemsToDelete));
+
+    if (itemsToDelete.includes(activeItem.id)) {
+      allItems.forEach((item, index, array) => {
+        if (activeItem.id === item.id) {
+          if (index === array.length - 1) {
+            dispatch(changeActiveItem(allItems[allItems.length - 2]));
+          } else {
+            dispatch(changeActiveItem(allItems[allItems.length - 1]));
+          }
+        } else {
+          return;
+        }
+      });
+    }
+  };
 
   return (
     <div>
@@ -45,17 +78,27 @@ export const Items = () => {
         <h2 className="items_title">Items</h2>
 
         <form className="items-form" onSubmit={handleSubmitForm}>
-          <input
+          {/* <input
             className="items-form_input"
             type="text"
             name="item"
             placeholder="Type name here..."
             required
             autoComplete="off"
+          /> */}
+          <Input
+            placeholder="Type name here..."
+            name="item"
+            value={inputValue}
+            onChange={event => setInputValue(event.target.value)}
+            required
           />
-          <button className="items-form_button" type="submit">
+          {/* <button className="items-form_button" type="submit">
             Add New
-          </button>
+          </button> */}
+          <Button type="primary" htmlType="submit">
+            Add New
+          </Button>
         </form>
 
         {allItems.length > 0 && (
@@ -66,11 +109,21 @@ export const Items = () => {
                 key={item.id}
                 onClick={() => handleItemClick(item)}
               >
-                <Item data={item} />
+                <Item data={item} handleClick={handleClickCheck} />
               </li>
             ))}
           </ul>
         )}
+
+        <Button
+          type="primary"
+          danger
+          ghost
+          onClick={handleButtonDeleteClick}
+          // disabled={itemsToDelete.length === 0 ? 1 : 0}
+        >
+          Delete
+        </Button>
       </div>
     </div>
   );
