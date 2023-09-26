@@ -115,15 +115,11 @@ export const Items = () => {
           </ul>
         )}
 
-        <Button
-          type="primary"
-          danger
-          ghost
-          onClick={handleButtonDeleteClick}
-          // disabled={itemsToDelete.length === 0 ? 1 : 0}
-        >
-          Delete
-        </Button>
+        {allItems.length > 0 && (
+          <Button type="primary" danger ghost onClick={handleButtonDeleteClick}>
+            Delete
+          </Button>
+        )}
       </div>
     </div>
   );
